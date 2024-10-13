@@ -10,9 +10,9 @@ class FloatingAddButton extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: AppColors.textColor,
-          width: 3.0,
+          width: 2.0,
         ),
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: FloatingActionButton(
         onPressed: () {

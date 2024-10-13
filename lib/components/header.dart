@@ -3,7 +3,9 @@ import 'package:project1/constants.dart';
 
 class Header extends StatelessWidget {
   final double size;
-  const Header(this.size);
+  final Function(String) onSearchChanged;
+
+  const Header(this.size, {required this.onSearchChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +61,10 @@ class Header extends StatelessWidget {
           ? size / 2
           : size -
               150, //Make the search bar flexible so it can fit bigger space on bigger screens.
-      child: const SearchBar(
+      child: SearchBar(
           hintText: 'Search...',
-          backgroundColor: WidgetStatePropertyAll(
+          onChanged: onSearchChanged,
+          backgroundColor: const WidgetStatePropertyAll(
             AppColors.elementColor,
             //TODO add search bar
           )),

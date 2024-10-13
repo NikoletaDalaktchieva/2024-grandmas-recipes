@@ -15,11 +15,17 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 void main() {
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MainApp extends StatefulWidget {
+  // Change to StatefulWidget
+  @override
+  _MainAppState createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +35,12 @@ class MainApp extends StatelessWidget {
         home: Scaffold(
           body: Column(
             children: [
-              Header(size),
-              Expanded(child: RecipeGrid()),
+              Header(size, onSearchChanged: (query) {
+                setState(() {
+                  searchQuery = query; // Update the search query state
+                });
+              }),
+              Expanded(child: RecipeGrid(searchQuery: searchQuery)),
             ],
           ),
           floatingActionButton:
