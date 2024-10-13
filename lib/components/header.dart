@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:project1/constants.dart';
 
 class Header extends StatelessWidget {
-  const Header();
+  final double size;
+  const Header(this.size);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       color: AppColors.backgroundColor,
       height: 100,
       child: Row(
         children: [
           logo(),
+          if (size > Breakpoints.tablet) title(size),
+          const Spacer(),
+          search(size),
+          const Spacer(),
+          if (size > Breakpoints.tablet) addRecipeButton(),
           const SizedBox(width: 10),
-          webpageName(),
-          const Spacer(),
-          search(),
-          const Spacer(),
-          addRecipeButton(),
-          const SizedBox(width: 20),
         ],
       ),
     );
@@ -32,22 +31,21 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget webpageName() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget title(double size) {
+    return Text.rich(
+      TextSpan(
         children: [
-          title(),
-          const SizedBox(height: 4),
-          subtitle(),
-        ]);
-  }
-
-  Widget title() {
-    return const Text(
-      "Grandma's Recipes",
-      style: TextStyle(
-        fontSize: 28,
+          const TextSpan(text: "Grandma's"),
+          if (size < Breakpoints.smallComputer)
+            const TextSpan(
+                text:
+                    '\n'), //For smaller screens set the text to be on two rows
+          const TextSpan(text: 'Recipes'),
+        ],
+      ),
+      textAlign: TextAlign.left,
+      style: const TextStyle(
+        fontSize: 20,
         fontWeight: FontWeight.bold,
         color: AppColors.textColor,
         fontFamily: 'Cursive',
@@ -55,21 +53,13 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget subtitle() {
-    return const Text(
-      "Heartwarming dishes made with love",
-      style: TextStyle(
-        fontSize: 16,
-        color: AppColors.textColor,
-        fontStyle: FontStyle.italic,
-      ),
-    );
-  }
-
-  Widget search() {
-    return const SizedBox(
-      width: 700,
-      child: SearchBar(
+  Widget search(double size) {
+    return SizedBox(
+      width: (size > Breakpoints.tablet)
+          ? size / 2
+          : size -
+              150, //Make the search bar flexible so it can fit bigger space on bigger screens.
+      child: const SearchBar(
           hintText: 'Search...',
           backgroundColor: WidgetStatePropertyAll(
             AppColors.elementColor,
@@ -79,13 +69,20 @@ class Header extends StatelessWidget {
   }
 
   Widget addRecipeButton() {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: () {
-        //TODO
+        // TODO: Add your functionality here
       },
-      style: const ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(AppColors.elementColor)),
-      child: const Text("Add recipe"),
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(AppColors.elementColor),
+        foregroundColor: WidgetStateProperty.all(AppColors.textColor),
+      ),
+      icon: const Icon(
+        Icons.add,
+        size: 24.0,
+        color: AppColors.textColor,
+      ),
+      label: const Text("Add recipe"),
     );
   }
 }

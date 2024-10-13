@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:project1/components/floating_add_button.dart';
 import 'package:project1/components/header.dart';
+import 'package:project1/constants.dart';
 import 'package:project1/pages/recipe_grid.dart';
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
@@ -21,14 +23,18 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width;
     return MaterialApp(
         scrollBehavior: CustomScrollBehavior(),
         home: Scaffold(
-            body: Column(
-          children: [
-            Header(),
-            Expanded(child: RecipeGrid()),
-          ],
-        )));
+          body: Column(
+            children: [
+              Header(size),
+              Expanded(child: RecipeGrid()),
+            ],
+          ),
+          floatingActionButton:
+              size < Breakpoints.tablet ? FloatingAddButton() : null,
+        ));
   }
 }
