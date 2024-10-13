@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project1/constants.dart';
+import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   final double size;
@@ -73,9 +74,7 @@ class Header extends StatelessWidget {
 
   Widget addRecipeButton() {
     return ElevatedButton.icon(
-      onPressed: () {
-        // TODO: Add your functionality here
-      },
+      onPressed: () => Get.toNamed("/add_recipe"),
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(AppColors.elementColor),
         foregroundColor: WidgetStateProperty.all(AppColors.textColor),

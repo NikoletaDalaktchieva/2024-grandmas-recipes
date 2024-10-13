@@ -15,8 +15,6 @@ class RecipeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     int count = width < Breakpoints.mobile ? 1 : width ~/ 300;
-
-    print(searchQuery.toLowerCase());
     final filteredItems = items
         .where((item) =>
             item.title.toLowerCase().contains(searchQuery.toLowerCase()))

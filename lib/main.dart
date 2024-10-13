@@ -1,10 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:project1/components/floating_add_button.dart';
-import 'package:project1/components/header.dart';
-import 'package:project1/constants.dart';
-import 'package:project1/pages/recipe_grid.dart';
+import 'package:project1/pages/add_recipe.dart';
+import 'package:project1/pages/main_screen.dart';
+import 'package:get/get.dart';
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -15,36 +13,13 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 void main() {
-  runApp(MainApp());
-}
-
-class MainApp extends StatefulWidget {
-  // Change to StatefulWidget
-  @override
-  _MainAppState createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  String searchQuery = '';
-
-  @override
-  Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width;
-    return MaterialApp(
-        scrollBehavior: CustomScrollBehavior(),
-        home: Scaffold(
-          body: Column(
-            children: [
-              Header(size, onSearchChanged: (query) {
-                setState(() {
-                  searchQuery = query; // Update the search query state
-                });
-              }),
-              Expanded(child: RecipeGrid(searchQuery: searchQuery)),
-            ],
-          ),
-          floatingActionButton:
-              size < Breakpoints.tablet ? FloatingAddButton() : null,
-        ));
-  }
+  runApp(
+    GetMaterialApp(
+      initialRoute: "/",
+      getPages: [
+        GetPage(name: "/", page: () => MainScreen()),
+        GetPage(name: "/add_recipe", page: () => AddRecipe()),
+      ],
+    ),
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project1/constants.dart';
+import 'package:get/get.dart';
 
 class FloatingAddButton extends StatelessWidget {
   @override
@@ -15,9 +16,7 @@ class FloatingAddButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: FloatingActionButton(
-        onPressed: () {
-          // TODO Add action here
-        },
+        onPressed: () => Get.toNamed("/add_recipe"),
         backgroundColor: AppColors.backgroundColor,
         tooltip: 'Add recipe',
         child: const Icon(
