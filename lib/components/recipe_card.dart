@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project1/constants.dart';
+import 'package:project1/constants/breakpoints.dart';
 
 class RecipeCard extends StatelessWidget {
   final String title;

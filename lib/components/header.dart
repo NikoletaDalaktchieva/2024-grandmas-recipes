@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:project1/constants.dart';
 import 'package:get/get.dart';
+import 'package:project1/constants/app_colors.dart';
+import 'package:project1/constants/breakpoints.dart';
 
 class Header extends StatelessWidget {
   final double size;
-  final Function(String) onSearchChanged;
+  Function(String)? onSearchChanged;
 
-  const Header(this.size, {required this.onSearchChanged});
+  Header(this.size, {super.key});
+
+  Header.withSearch(this.size, {super.key, required this.onSearchChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,9 @@ class Header extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          const TextSpan(text: "Grandma's"),
+          const TextSpan(
+            text: "Grandma's",
+          ),
           if (size < Breakpoints.smallComputer)
             const TextSpan(
                 text:
