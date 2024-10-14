@@ -22,7 +22,7 @@ class RecipeGrid extends StatelessWidget {
 
     return GridView.count(
       crossAxisCount: count,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       childAspectRatio: count == 1 ? (2 / 1) : (1 / 1),

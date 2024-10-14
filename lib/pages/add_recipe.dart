@@ -11,29 +11,31 @@ class AddRecipe extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Column(children: [
-      Header(size.width),
-      const SizedBox(height: 5),
-      Expanded(
-          child: SingleChildScrollView(
-              child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        title(),
-                        const SizedBox(height: 10),
-                        subtitle(),
-                        const SizedBox(height: 10),
-                        image(size),
-                        const SizedBox(height: 10),
-                        mainInfo(),
-                        const SizedBox(height: 10),
-                        ingredients(),
-                        const SizedBox(height: 10),
-                        direction()
-                      ]))))
-    ]));
+      body: Column(children: [
+        Header(size.width),
+        const SizedBox(height: 5),
+        Expanded(
+            child: SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          title(),
+                          const SizedBox(height: 10),
+                          subtitle(),
+                          const SizedBox(height: 10),
+                          image(size),
+                          const SizedBox(height: 10),
+                          mainInfo(),
+                          const SizedBox(height: 10),
+                          ingredients(),
+                          const SizedBox(height: 10),
+                          direction()
+                        ]))))
+      ]),
+      floatingActionButton: footerButtons(),
+    );
   }
 
   Widget title() {
@@ -62,8 +64,8 @@ class AddRecipe extends StatelessWidget {
             border: OutlineInputBorder(),
           ),
           style: const TextStyle(
-            fontSize: 16, // Change the font size here
-            color: AppColors.textColor, // Optional: Change text color
+            fontSize: 16,
+            color: AppColors.textColor,
           ),
         ));
   }
@@ -198,5 +200,38 @@ class AddRecipe extends StatelessWidget {
             ),
           ))
     ]);
+  }
+
+  Widget footerButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0, bottom: 16.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          saveButton(),
+          const SizedBox(width: 10), // Space between buttons
+          cancelButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget saveButton() {
+    return button("Save");
+  }
+
+  Widget cancelButton() {
+    return button("Cancel");
+  }
+
+  Widget button(String btnLabel) {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(AppColors.elementColor),
+        foregroundColor: WidgetStateProperty.all(AppColors.textColor),
+      ),
+      child: Text(btnLabel),
+    );
   }
 }
