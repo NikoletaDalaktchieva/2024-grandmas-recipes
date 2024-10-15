@@ -3,13 +3,25 @@ import 'package:project1/components/header.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project1/constants/app_colors.dart';
 import 'package:project1/constants/breakpoints.dart';
+import 'package:get/get.dart';
+import 'package:project1/controllers/recipe_controler.dart';
+import 'package:project1/models/recipe.dart';
 
 class AddRecipe extends StatelessWidget {
-  const AddRecipe({super.key});
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final recipeController = Get.find<RecipeController>();
+
+  AddRecipe({super.key});
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    print(recipeController.size);
+    for (int i = 0; i < recipeController.size; i++) {
+      print(recipeController.recipes[i].toString());
+    }
+
     return Scaffold(
       body: Column(children: [
         Header(size.width),
@@ -18,23 +30,25 @@ class AddRecipe extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          title(),
-                          const SizedBox(height: 10),
-                          subtitle(),
-                          const SizedBox(height: 10),
-                          image(size),
-                          const SizedBox(height: 10),
-                          mainInfo(),
-                          const SizedBox(height: 10),
-                          ingredients(),
-                          const SizedBox(height: 10),
-                          direction()
-                        ]))))
+                    child: FormBuilder(
+                        key: _fbKey,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              title(),
+                              const SizedBox(height: 10),
+                              subtitle(),
+                              const SizedBox(height: 10),
+                              image(size),
+                              const SizedBox(height: 10),
+                              mainInfo(),
+                              const SizedBox(height: 10),
+                              ingredients(),
+                              const SizedBox(height: 10),
+                              direction()
+                            ])))))
       ]),
-      floatingActionButton: footerButtons(),
+      floatingActionButton: footerButtons(context),
     );
   }
 
@@ -154,7 +168,8 @@ class AddRecipe extends StatelessWidget {
       ),
       SizedBox(
           width: Breakpoints.tablet.toDouble(),
-          child: TextFormField(
+          child: FormBuilderTextField(
+            name: 'ingredients',
             minLines: 3,
             keyboardType: TextInputType.multiline,
             maxLines: null,
@@ -184,7 +199,8 @@ class AddRecipe extends StatelessWidget {
       ),
       SizedBox(
           width: Breakpoints.tablet.toDouble(),
-          child: TextFormField(
+          child: FormBuilderTextField(
+            name: 'directions',
             minLines: 5,
             keyboardType: TextInputType.multiline,
             maxLines: null,
@@ -202,7 +218,7 @@ class AddRecipe extends StatelessWidget {
     ]);
   }
 
-  Widget footerButtons() {
+  Widget footerButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0, bottom: 16.0),
       child: Row(
@@ -210,28 +226,80 @@ class AddRecipe extends StatelessWidget {
         children: [
           saveButton(),
           const SizedBox(width: 10), // Space between buttons
-          cancelButton(),
+          cancelButton(context),
         ],
       ),
     );
   }
 
   Widget saveButton() {
-    return button("Save");
+    return button("Save", () => saveFunction());
   }
 
-  Widget cancelButton() {
-    return button("Cancel");
+  saveFunction() {
+    Recipe recipe = new Recipe(
+        getKey('title'),
+        getKey("subtitle"),
+        getKey("preparation_time"),
+        getKey("cook_time"),
+        getKey("total_time"),
+        getKey("level"),
+        getKey("servings"),
+        getKey("yield"),
+        getKey("ingredients"),
+        getKey("directions"));
+    recipeController.add(recipe);
+    print(recipeController.size);
   }
 
-  Widget button(String btnLabel) {
+  getKey(String key) {
+    return _fbKey.currentState?.fields[key]?.value;
+  }
+
+  Widget cancelButton(BuildContext context) {
+    return button("Cancel", () => cancelFunction(context));
+  }
+
+  cancelFunction(BuildContext context) {
+    _showConfirmationDialog(context);
+  }
+
+  Widget button(String btnLabel, Function pressFunction) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => pressFunction(),
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(AppColors.elementColor),
         foregroundColor: WidgetStateProperty.all(AppColors.textColor),
       ),
       child: Text(btnLabel),
+    );
+  }
+
+  Future<void> _showConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Confirm'),
+          content: const Text('Do you want to proceed?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Confirm'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
