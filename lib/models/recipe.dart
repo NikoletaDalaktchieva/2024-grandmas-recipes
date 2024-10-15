@@ -1,6 +1,6 @@
 class Recipe {
-  String? title;
-  String? subtitle;
+  String title;
+  String subtitle;
   String? preparationTime;
   String? cookTime;
   String? totalTime;

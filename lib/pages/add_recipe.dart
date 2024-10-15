@@ -16,12 +16,6 @@ class AddRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
-    print(recipeController.size);
-    for (int i = 0; i < recipeController.size; i++) {
-      print(recipeController.recipes[i].toString());
-    }
-
     return Scaffold(
       body: Column(children: [
         Header(size.width),
@@ -249,7 +243,7 @@ class AddRecipe extends StatelessWidget {
         getKey("ingredients"),
         getKey("directions"));
     recipeController.add(recipe);
-    print(recipeController.size);
+    Get.toNamed("/");
   }
 
   getKey(String key) {

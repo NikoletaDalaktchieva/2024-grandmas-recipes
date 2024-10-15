@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:project1/components/recipe_card.dart';
 import 'package:project1/constants/breakpoints.dart';
+import 'package:project1/controllers/recipe_controler.dart';
+import 'package:get/get.dart';
 
 class RecipeGrid extends StatelessWidget {
   final String searchQuery;
-  final List<RecipeCard> items;
+  final recipeController = Get.find<RecipeController>();
 
-  RecipeGrid({required this.searchQuery})
-      : items = Iterable<int>.generate(12)
-            .map((i) => RecipeCard("Title $i", "Subtitle"))
-            .toList();
+  RecipeGrid({required this.searchQuery});
 
   @override
   Widget build(BuildContext context) {
+    final List<RecipeCard> items = Iterable<int>.generate(recipeController.size)
+        .map((i) => RecipeCard(recipeController.get(i)))
+        .toList();
+
     double width = MediaQuery.of(context).size.width;
     int count = width < Breakpoints.mobile ? 1 : width ~/ 300;
     final filteredItems = items
         .where((item) =>
-            item.title.toLowerCase().contains(searchQuery.toLowerCase()))
+            item.recipe.title.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
 
     return GridView.count(

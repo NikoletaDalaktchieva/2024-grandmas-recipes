@@ -38,5 +38,9 @@ class RecipeController {
     }
   }
 
+  Recipe get(int index) {
+    return recipes[index];
+  }
+
   get size => recipes.length;
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project1/constants/breakpoints.dart';
+import 'package:project1/models/recipe.dart';
 
 class RecipeCard extends StatelessWidget {
-  final String title;
-  final String description;
+  final Recipe recipe;
 
-  RecipeCard(this.title, this.description);
+  RecipeCard(this.recipe);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class RecipeCard extends StatelessWidget {
 
   ListTile textInformation() {
     return ListTile(
-      title: Text(title),
-      subtitle: Text(description),
+      title: Text(recipe.title),
+      subtitle: Text(recipe.subtitle),
       trailing: const Icon(Icons.favorite_outline),
     );
   }
