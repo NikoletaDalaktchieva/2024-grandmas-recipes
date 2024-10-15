@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project1/constants/breakpoints.dart';
 import 'package:project1/models/recipe.dart';
+import 'package:get/get.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -38,7 +39,12 @@ class RecipeCard extends StatelessWidget {
     return ListTile(
       title: Text(recipe.title),
       subtitle: Text(recipe.subtitle),
-      trailing: const Icon(Icons.favorite_outline),
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () {
+          Get.toNamed("/add_recipe", arguments: recipe);
+        },
+      ),
     );
   }
 }

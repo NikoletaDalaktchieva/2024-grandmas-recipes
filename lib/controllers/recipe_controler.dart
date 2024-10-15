@@ -30,7 +30,8 @@ class RecipeController {
     _save();
   }
 
-  void update(int index, Recipe newRecipe) {
+  void update(int id, Recipe newRecipe) {
+    int index = recipes.indexWhere((recipe) => recipe.id == id);
     if (index >= 0 && index < recipes.length) {
       recipes[index] = newRecipe;
     } else {

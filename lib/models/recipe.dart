@@ -1,4 +1,6 @@
 class Recipe {
+  static int counterId = 0;
+  int id;
   String title;
   String subtitle;
   String? preparationTime;
@@ -20,7 +22,8 @@ class Recipe {
       this.servings,
       this.yield,
       this.ingredients,
-      this.directions);
+      this.directions)
+      : id = counterId++;
 
   Map toJson() => {
         'title': title,

@@ -10,12 +10,15 @@ import 'package:project1/models/recipe.dart';
 class AddRecipe extends StatelessWidget {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final recipeController = Get.find<RecipeController>();
+  Recipe recipe = Recipe("", "", "", "", "", "", "", "", "", "");
 
   AddRecipe({super.key});
 
   @override
   Widget build(BuildContext context) {
+    if (Get.arguments != null) recipe = Get.arguments;
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(children: [
         Header(size.width),
@@ -51,6 +54,7 @@ class AddRecipe extends StatelessWidget {
         width: Breakpoints.tablet.toDouble(),
         child: FormBuilderTextField(
           name: 'title',
+          initialValue: recipe.title,
           decoration: const InputDecoration(
             hintText: 'Title',
             border: OutlineInputBorder(),
@@ -67,6 +71,7 @@ class AddRecipe extends StatelessWidget {
         width: Breakpoints.tablet.toDouble(),
         child: FormBuilderTextField(
           name: 'subtitle',
+          initialValue: recipe.subtitle,
           decoration: const InputDecoration(
             hintText: 'Subtitle',
             border: OutlineInputBorder(),
@@ -103,18 +108,18 @@ class AddRecipe extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              textFieldWithTitle("Preparation time"),
-              textFieldWithTitle("Cook time"),
-              textFieldWithTitle("Total time"),
+              textFieldWithTitle("Preparation time", recipe.preparationTime),
+              textFieldWithTitle("Cook time", recipe.cookTime),
+              textFieldWithTitle("Total time", recipe.totalTime),
             ],
           ),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              textFieldWithTitle("Level"),
-              textFieldWithTitle("Servings"),
-              textFieldWithTitle("Yield"),
+              textFieldWithTitle("Level", recipe.level),
+              textFieldWithTitle("Servings", recipe.servings),
+              textFieldWithTitle("Yield", recipe.yield),
             ],
           ),
         ],
@@ -122,7 +127,7 @@ class AddRecipe extends StatelessWidget {
     );
   }
 
-  Widget textFieldWithTitle(String text) {
+  Widget textFieldWithTitle(String text, String? content) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         text,
@@ -135,6 +140,7 @@ class AddRecipe extends StatelessWidget {
           width: 120,
           child: FormBuilderTextField(
               name: convertToSnakeCase(text),
+              initialValue: content,
               decoration: InputDecoration(
                 hintText: text,
                 border: const OutlineInputBorder(),
@@ -164,6 +170,7 @@ class AddRecipe extends StatelessWidget {
           width: Breakpoints.tablet.toDouble(),
           child: FormBuilderTextField(
             name: 'ingredients',
+            initialValue: recipe.ingredients,
             minLines: 3,
             keyboardType: TextInputType.multiline,
             maxLines: null,
@@ -195,6 +202,7 @@ class AddRecipe extends StatelessWidget {
           width: Breakpoints.tablet.toDouble(),
           child: FormBuilderTextField(
             name: 'directions',
+            initialValue: recipe.directions,
             minLines: 5,
             keyboardType: TextInputType.multiline,
             maxLines: null,
@@ -231,7 +239,7 @@ class AddRecipe extends StatelessWidget {
   }
 
   saveFunction() {
-    Recipe recipe = new Recipe(
+    Recipe newRecipe = new Recipe(
         getKey('title'),
         getKey("subtitle"),
         getKey("preparation_time"),
@@ -242,7 +250,12 @@ class AddRecipe extends StatelessWidget {
         getKey("yield"),
         getKey("ingredients"),
         getKey("directions"));
-    recipeController.add(recipe);
+
+    if (this.recipe.title.isEmpty) {
+      recipeController.add(newRecipe);
+    } else {
+      recipeController.update(recipe.id, newRecipe);
+    }
     Get.toNamed("/");
   }
 
