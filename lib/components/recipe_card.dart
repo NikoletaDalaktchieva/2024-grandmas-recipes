@@ -42,7 +42,7 @@ class RecipeCard extends StatelessWidget {
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () {
-          Get.toNamed("/add_recipe", arguments: recipe);
+          Get.toNamed("/edit_recipe", arguments: recipe);
         },
       ),
     );

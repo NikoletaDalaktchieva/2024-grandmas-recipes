@@ -251,7 +251,7 @@ class AddRecipe extends StatelessWidget {
         getKey("ingredients"),
         getKey("directions"));
 
-    if (this.recipe.title.isEmpty) {
+    if (recipe.title.isEmpty) {
       recipeController.add(newRecipe);
     } else {
       recipeController.update(recipe.id, newRecipe);

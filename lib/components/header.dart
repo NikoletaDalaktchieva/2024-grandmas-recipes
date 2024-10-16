@@ -21,9 +21,10 @@ class Header extends StatelessWidget {
           logo(),
           if (size > Breakpoints.tablet) title(size),
           const Spacer(),
-          search(size),
+          if (onSearchChanged != null) search(size),
           const Spacer(),
-          if (size > Breakpoints.tablet) addRecipeButton(),
+          if (size > Breakpoints.tablet && onSearchChanged != null)
+            addRecipeButton(),
           const SizedBox(width: 10),
         ],
       ),
@@ -42,9 +43,9 @@ class Header extends StatelessWidget {
       TextSpan(
         children: [
           const TextSpan(
-            text: "Grandma's",
+            text: "Grandma's ",
           ),
-          if (size < Breakpoints.smallComputer)
+          if (size < Breakpoints.smallComputer && onSearchChanged != null)
             const TextSpan(
                 text:
                     '\n'), //For smaller screens set the text to be on two rows
@@ -68,12 +69,18 @@ class Header extends StatelessWidget {
           : size -
               150, //Make the search bar flexible so it can fit bigger space on bigger screens.
       child: SearchBar(
-          hintText: 'Search...',
-          onChanged: onSearchChanged,
-          backgroundColor: const WidgetStatePropertyAll(
-            AppColors.elementColor,
-            //TODO add search bar
-          )),
+        hintText: 'Search...',
+        onChanged: onSearchChanged,
+        backgroundColor: const WidgetStatePropertyAll(AppColors.elementColor),
+        trailing: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Get.toNamed("/");
+            },
+          ),
+        ],
+      ),
     );
   }
 
