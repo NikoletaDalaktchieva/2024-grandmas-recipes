@@ -22,9 +22,9 @@ class RecipeCard extends StatelessWidget {
       Container(
         width: size < Breakpoints.mobile ? 200 : size,
         height: size < Breakpoints.mobile ? size : 200,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/hamburger_recipe.jpg'),
+            image: NetworkImage(recipe.imageUrl!),
             fit: BoxFit.cover,
           ),
         ),

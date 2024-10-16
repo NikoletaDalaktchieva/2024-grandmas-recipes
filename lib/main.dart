@@ -17,6 +17,7 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
 Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");
+
   Get.lazyPut<RecipeController>(() => RecipeController());
   runApp(
     GetMaterialApp(
@@ -29,3 +30,12 @@ Future<void> main() async {
     ),
   );
 }
+
+
+
+// TODO validation - title & subtitle mandatory
+// TODO - too long title & subtitle go out of scope
+// TODO subtitle to be text area
+// TODO view screen
+// TODO time fileds to be only with numbers
+// TODO visualize bullet points

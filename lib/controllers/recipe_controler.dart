@@ -25,18 +25,14 @@ class RecipeController {
     );
   }
 
-  void add(Recipe recipe) {
-    recipes.add(recipe);
-    _save();
-  }
-
-  void update(int id, Recipe newRecipe) {
-    int index = recipes.indexWhere((recipe) => recipe.id == id);
+  void update(Recipe recipe) {
+    int index = recipes.indexWhere((r) => r.id == recipe.id);
     if (index >= 0 && index < recipes.length) {
-      recipes[index] = newRecipe;
+      recipes[index] = recipe;
     } else {
-      print('Index out of bounds');
+      recipes.add(recipe);
     }
+    _save();
   }
 
   Recipe get(int index) {

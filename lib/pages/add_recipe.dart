@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project1/components/header.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:project1/components/upload_image_button.dart';
 import 'package:project1/constants/app_colors.dart';
 import 'package:project1/constants/breakpoints.dart';
 import 'package:get/get.dart';
@@ -10,13 +11,13 @@ import 'package:project1/models/recipe.dart';
 class AddRecipe extends StatelessWidget {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final recipeController = Get.find<RecipeController>();
-  Recipe recipe = Recipe("", "", "", "", "", "", "", "", "", "");
+  late Recipe recipe = Recipe.empty();
 
   AddRecipe({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) recipe = Get.arguments;
+    Get.arguments != null ? recipe = Get.arguments : recipe = Recipe.empty();
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -84,16 +85,18 @@ class AddRecipe extends StatelessWidget {
   }
 
   Widget image(size) {
-    return Container(
-      width: Breakpoints.tablet.toDouble(),
-      height: size.height / 3,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/hamburger_recipe.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
+    return ImageUploadExample(recipe.imageUrl, size.height,
+        onImageSelected: (imageUrl) => recipe.imageUrl = imageUrl!);
+    // return Container(
+    //   width: Breakpoints.tablet.toDouble(),
+    //   height: size.height / 3,
+    //   decoration: const BoxDecoration(
+    //     image: DecorationImage(
+    //       image: AssetImage('assets/hamburger_recipe.jpg'),
+    //       fit: BoxFit.cover,
+    //     ),
+    //   ),
+    // );
   }
 
   Widget mainInfo() {
@@ -239,23 +242,19 @@ class AddRecipe extends StatelessWidget {
   }
 
   saveFunction() {
-    Recipe newRecipe = new Recipe(
-        getKey('title'),
-        getKey("subtitle"),
-        getKey("preparation_time"),
-        getKey("cook_time"),
-        getKey("total_time"),
-        getKey("level"),
-        getKey("servings"),
-        getKey("yield"),
-        getKey("ingredients"),
-        getKey("directions"));
+    recipe.title = getKey('title');
+    recipe.subtitle = getKey("subtitle");
+    recipe.preparationTime = getKey("preparation_time");
+    recipe.cookTime = getKey("cook_time");
+    recipe.totalTime = getKey("total_time");
+    recipe.level = getKey("level");
+    recipe.servings = getKey("servings");
+    recipe.yield = getKey("yield");
+    recipe.ingredients = getKey("ingredients");
+    recipe.directions = getKey("directions");
 
-    if (recipe.title.isEmpty) {
-      recipeController.add(newRecipe);
-    } else {
-      recipeController.update(recipe.id, newRecipe);
-    }
+    recipeController.update(recipe);
+
     Get.toNamed("/");
   }
 

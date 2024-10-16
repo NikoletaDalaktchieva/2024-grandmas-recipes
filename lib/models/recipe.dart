@@ -3,6 +3,7 @@ class Recipe {
   int id;
   String title;
   String subtitle;
+  String imageUrl;
   String? preparationTime;
   String? cookTime;
   String? totalTime;
@@ -12,9 +13,24 @@ class Recipe {
   String? ingredients;
   String? directions;
 
+  Recipe.empty()
+      : id = counterId++,
+        title = "",
+        subtitle = "",
+        imageUrl = "",
+        preparationTime = null,
+        cookTime = null,
+        totalTime = null,
+        level = null,
+        servings = null,
+        yield = null,
+        ingredients = null,
+        directions = null;
+
   Recipe(
       this.title,
       this.subtitle,
+      this.imageUrl,
       this.preparationTime,
       this.cookTime,
       this.totalTime,
@@ -28,6 +44,7 @@ class Recipe {
   Map toJson() => {
         'title': title,
         'subtitle': subtitle,
+        'imageUrl': imageUrl,
         'preparationTime': preparationTime,
         'cookTime': cookTime,
         'totalTime': totalTime,
@@ -42,6 +59,7 @@ class Recipe {
     return Recipe(
       json['title'],
       json['subtitle'],
+      json['imageUrl'],
       json['preparationTime'],
       json['cookTime'],
       json['totalTime'],
@@ -57,6 +75,7 @@ class Recipe {
   String toString() {
     return '''
     Recipe:
+      Id: $id
       Title: $title
       Subtitle: $subtitle
       Preparation Time: $preparationTime
