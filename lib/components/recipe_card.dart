@@ -24,7 +24,7 @@ class RecipeCard extends StatelessWidget {
         height: size < Breakpoints.mobile ? size : 200,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(recipe.imageUrl!),
+            image: NetworkImage(recipe.imageUrl),
             fit: BoxFit.cover,
           ),
         ),
@@ -42,7 +42,8 @@ class RecipeCard extends StatelessWidget {
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () {
-          Get.toNamed("/edit_recipe", arguments: recipe);
+          //Get.toNamed("/edit_recipe", arguments: recipe);
+          Get.toNamed("/recipe", arguments: recipe.id);
         },
       ),
     );

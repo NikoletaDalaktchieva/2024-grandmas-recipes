@@ -39,5 +39,10 @@ class RecipeController {
     return recipes[index];
   }
 
+  bool isExist(int id) {
+    int index = recipes.indexWhere((r) => r.id == id);
+    return index >= 0 && index < recipes.length;
+  }
+
   get size => recipes.length;
 }

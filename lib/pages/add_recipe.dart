@@ -14,7 +14,7 @@ import 'package:project1/models/recipe.dart';
 class AddRecipe extends StatelessWidget {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final recipeController = Get.find<RecipeController>();
-  late Recipe recipe = Recipe.empty();
+  late Recipe recipe;
 
   AddRecipe({super.key});
 

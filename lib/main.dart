@@ -5,6 +5,7 @@ import 'package:project1/controllers/recipe_controler.dart';
 import 'package:project1/pages/add_recipe.dart';
 import 'package:project1/pages/main_screen.dart';
 import 'package:get/get.dart';
+import 'package:project1/pages/recipe_info.dart';
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -26,6 +27,7 @@ Future<void> main() async {
         GetPage(name: "/", page: () => MainScreen()),
         GetPage(name: "/add_recipe", page: () => AddRecipe()),
         GetPage(name: "/edit_recipe", page: () => AddRecipe()),
+        GetPage(name: "/recipe", page: () => RecipeInfo()),
       ],
     ),
   );
