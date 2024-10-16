@@ -37,8 +37,8 @@ class RecipeCard extends StatelessWidget {
 
   ListTile textInformation() {
     return ListTile(
-      title: Text(recipe.title),
-      subtitle: Text(recipe.subtitle),
+      title: Text(recipe.title, maxLines: 1),
+      subtitle: Text(recipe.subtitle, maxLines: 3),
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () {

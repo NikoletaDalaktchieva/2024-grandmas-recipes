@@ -31,11 +31,8 @@ Future<void> main() async {
   );
 }
 
-
-
-// TODO validation - title & subtitle mandatory
-// TODO - too long title & subtitle go out of scope
-// TODO subtitle to be text area
 // TODO view screen
 // TODO time fileds to be only with numbers
 // TODO visualize bullet points
+// TODO add numbers to the adress
+// TODO deploy the app

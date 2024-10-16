@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project1/components/custom_button.dart';
+import 'package:project1/components/custom_text.dart';
+import 'package:project1/components/custom_text_field.dart';
 import 'package:project1/components/header.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project1/components/upload_image_button.dart';
@@ -29,74 +32,53 @@ class AddRecipe extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: FormBuilder(
-                        key: _fbKey,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              title(),
-                              const SizedBox(height: 10),
-                              subtitle(),
-                              const SizedBox(height: 10),
-                              image(size),
-                              const SizedBox(height: 10),
-                              mainInfo(),
-                              const SizedBox(height: 10),
-                              ingredients(),
-                              const SizedBox(height: 10),
-                              direction()
-                            ])))))
+                      key: _fbKey,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            title(),
+                            const SizedBox(height: 10),
+                            subtitle(),
+                            const SizedBox(height: 10),
+                            image(size),
+                            const SizedBox(height: 10),
+                            mainInfo(),
+                            const SizedBox(height: 10),
+                            ingredients(),
+                            const SizedBox(height: 10),
+                            direction(),
+                          ]),
+                    ))))
       ]),
       floatingActionButton: footerButtons(context),
     );
   }
 
   Widget title() {
-    return SizedBox(
-        width: Breakpoints.tablet.toDouble(),
-        child: FormBuilderTextField(
-          name: 'title',
-          initialValue: recipe.title,
-          decoration: const InputDecoration(
-            hintText: 'Title',
-            border: OutlineInputBorder(),
-          ),
-          style: const TextStyle(
-            fontSize: 24,
-            color: AppColors.textColor,
-          ),
-        ));
+    return CustomTextField(
+      initialValue: recipe.title,
+      name: 'title',
+      hintText: 'Title',
+      fontSize: 24,
+      requiredField: true,
+      width: Breakpoints.tablet.toDouble(),
+    );
   }
 
   Widget subtitle() {
-    return SizedBox(
-        width: Breakpoints.tablet.toDouble(),
-        child: FormBuilderTextField(
-          name: 'subtitle',
-          initialValue: recipe.subtitle,
-          decoration: const InputDecoration(
-            hintText: 'Subtitle',
-            border: OutlineInputBorder(),
-          ),
-          style: const TextStyle(
-            fontSize: 16,
-            color: AppColors.textColor,
-          ),
-        ));
+    return CustomTextField(
+      initialValue: recipe.subtitle,
+      name: 'subtitle',
+      hintText: 'Subtitle',
+      maxLines: 3,
+      requiredField: true,
+      width: Breakpoints.tablet.toDouble(),
+    );
   }
 
   Widget image(size) {
     return ImageUploadExample(recipe.imageUrl, size.height,
         onImageSelected: (imageUrl) => recipe.imageUrl = imageUrl!);
-    // return Container(
-    //   width: Breakpoints.tablet.toDouble(),
-    //   height: size.height / 3,
-    //   decoration: const BoxDecoration(
-    //     image: DecorationImage(
-    //       image: AssetImage('assets/hamburger_recipe.jpg'),
-    //       fit: BoxFit.cover,
-    //     ),
-    //   ),
-    // );
   }
 
   Widget mainInfo() {
@@ -132,26 +114,13 @@ class AddRecipe extends StatelessWidget {
 
   Widget textFieldWithTitle(String text, String? content) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        text,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: AppColors.textColor,
-        ),
-      ),
-      SizedBox(
-          width: 120,
-          child: FormBuilderTextField(
-              name: convertToSnakeCase(text),
-              initialValue: content,
-              decoration: InputDecoration(
-                hintText: text,
-                border: const OutlineInputBorder(),
-              ),
-              style: const TextStyle(
-                fontSize: 14,
-                //color: AppColors.textColor,
-              )))
+      CustomText(text),
+      CustomTextField(
+          initialValue: content,
+          name: convertToSnakeCase(text),
+          hintText: text,
+          fontSize: 14,
+          width: 140)
     ]);
   }
 
@@ -161,65 +130,26 @@ class AddRecipe extends StatelessWidget {
 
   Widget ingredients() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text(
-        "Ingrediants",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: AppColors.textColor,
-          fontSize: 20,
-        ),
+      const CustomText("Ingrediants", fontSize: 20),
+      CustomTextField(
+        initialValue: recipe.ingredients,
+        name: 'ingredients',
+        hintText: 'Enter your ingredients here',
+        maxLines: 3,
+        width: Breakpoints.tablet.toDouble(),
       ),
-      SizedBox(
-          width: Breakpoints.tablet.toDouble(),
-          child: FormBuilderTextField(
-            name: 'ingredients',
-            initialValue: recipe.ingredients,
-            minLines: 3,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                borderSide: const BorderSide(
-                  color: AppColors.textColor,
-                  width: 1.0,
-                ),
-              ),
-              hintText: 'Enter your ingredients here',
-            ),
-          ))
     ]);
   }
 
   Widget direction() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text(
-        "Direction",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: AppColors.textColor,
-          fontSize: 20,
-        ),
-      ),
-      SizedBox(
-          width: Breakpoints.tablet.toDouble(),
-          child: FormBuilderTextField(
-            name: 'directions',
-            initialValue: recipe.directions,
-            minLines: 5,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                borderSide: const BorderSide(
-                  color: AppColors.textColor,
-                  width: 1.0,
-                ),
-              ),
-              hintText: 'Enter the steps here',
-            ),
-          ))
+      const CustomText("Direction", fontSize: 20),
+      CustomTextField(
+          initialValue: recipe.directions,
+          name: 'directions',
+          hintText: 'Enter the steps here',
+          maxLines: 5,
+          width: Breakpoints.tablet.toDouble())
     ]);
   }
 
@@ -229,16 +159,12 @@ class AddRecipe extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          saveButton(),
+          CustomButton("Save", () => saveFunction()),
           const SizedBox(width: 10), // Space between buttons
-          cancelButton(context),
+          CustomButton("Cancel", () => cancelFunction(context)),
         ],
       ),
     );
-  }
-
-  Widget saveButton() {
-    return button("Save", () => saveFunction());
   }
 
   saveFunction() {
@@ -253,8 +179,8 @@ class AddRecipe extends StatelessWidget {
     recipe.ingredients = getKey("ingredients");
     recipe.directions = getKey("directions");
 
-    recipeController.update(recipe);
-
+    recipeController
+        .update(recipe); // create news if recipe with the id is not founded
     Get.toNamed("/");
   }
 
@@ -262,23 +188,8 @@ class AddRecipe extends StatelessWidget {
     return _fbKey.currentState?.fields[key]?.value;
   }
 
-  Widget cancelButton(BuildContext context) {
-    return button("Cancel", () => cancelFunction(context));
-  }
-
   cancelFunction(BuildContext context) {
     _showConfirmationDialog(context);
-  }
-
-  Widget button(String btnLabel, Function pressFunction) {
-    return ElevatedButton(
-      onPressed: () => pressFunction(),
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(AppColors.elementColor),
-        foregroundColor: WidgetStateProperty.all(AppColors.textColor),
-      ),
-      child: Text(btnLabel),
-    );
   }
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
