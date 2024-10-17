@@ -19,16 +19,20 @@ class RecipeCard extends StatelessWidget {
 
   List<Widget> content(size) {
     return [
-      Container(
-        width: size < Breakpoints.mobile ? 200 : size,
-        height: size < Breakpoints.mobile ? size : 200,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(recipe.imageUrl),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
+      GestureDetector(
+          onTap: () {
+            Get.toNamed("/recipe/${recipe.id}");
+          },
+          child: Container(
+            width: size < Breakpoints.mobile ? 200 : size,
+            height: size < Breakpoints.mobile ? size : 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(recipe.imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+          )),
       size < Breakpoints.mobile
           ? Expanded(child: textInformation())
           : textInformation()
@@ -42,8 +46,7 @@ class RecipeCard extends StatelessWidget {
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () {
-          //Get.toNamed("/edit_recipe", arguments: recipe);
-          Get.toNamed("/recipe", arguments: recipe.id);
+          Get.toNamed("/edit_recipe/${recipe.id}");
         },
       ),
     );

@@ -16,12 +16,12 @@ class RecipeInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO set to the link the id so you can serch by id not by given recipe
-    int recipeId = Get.arguments ?? -1;
+    int recipeId = int.tryParse(Get.parameters["recipeId"]!) ?? -1;
+
     if (!recipeController.isExist(recipeId)) {
       return Text("404 recipe not found");
     }
-    recipe = recipeController.recipes[recipeId];
+    recipe = recipeController.get(recipeId);
 
     var size = MediaQuery.of(context).size;
 
@@ -53,6 +53,7 @@ class RecipeInfo extends StatelessWidget {
   }
 
   Widget image(size) {
+    if (recipe.imageUrl.isEmpty) return SizedBox.shrink();
     return Container(
       width: Breakpoints.tablet.toDouble(),
       height: size.height / 3,
@@ -66,6 +67,11 @@ class RecipeInfo extends StatelessWidget {
   }
 
   Widget mainInfo() {
+    if (isMainInfoEmpty()) {
+      return SizedBox(
+        width: Breakpoints.tablet.toDouble(),
+      );
+    }
     return Container(
       padding: const EdgeInsets.all(15.0),
       width: Breakpoints.tablet.toDouble(),
@@ -94,6 +100,16 @@ class RecipeInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool isMainInfoEmpty() {
+    return (recipe.preparationTime == null ||
+            recipe.preparationTime!.isEmpty) &&
+        (recipe.cookTime == null || recipe.cookTime!.isEmpty) &&
+        (recipe.totalTime == null || recipe.totalTime!.isEmpty) &&
+        (recipe.level == null || recipe.level!.isEmpty) &&
+        (recipe.servings == null || recipe.servings!.isEmpty) &&
+        (recipe.yield == null || recipe.yield!.isEmpty);
   }
 
   Widget textFieldWithTitle(String text, String? content) {

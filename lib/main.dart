@@ -26,8 +26,8 @@ Future<void> main() async {
       getPages: [
         GetPage(name: "/", page: () => MainScreen()),
         GetPage(name: "/add_recipe", page: () => AddRecipe()),
-        GetPage(name: "/edit_recipe", page: () => AddRecipe()),
-        GetPage(name: "/recipe", page: () => RecipeInfo()),
+        GetPage(name: "/edit_recipe/:recipeId", page: () => AddRecipe()),
+        GetPage(name: "/recipe/:recipeId", page: () => RecipeInfo()),
       ],
     ),
   );

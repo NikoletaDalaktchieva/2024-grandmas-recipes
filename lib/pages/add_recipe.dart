@@ -20,7 +20,19 @@ class AddRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.arguments != null ? recipe = Get.arguments : recipe = Recipe.empty();
+    var id = Get.parameters["recipeId"];
+    if (id == null) {
+      recipe = Recipe.empty();
+    } else {
+      int recipeId = int.tryParse(Get.parameters["recipeId"]!) ?? -1;
+
+      if (!recipeController.isExist(recipeId)) {
+        return Text("404 recipe not found");
+      }
+
+      recipe = recipeController.get(recipeId);
+    }
+
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
